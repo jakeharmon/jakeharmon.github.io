@@ -1,0 +1,82 @@
+---
+title       : K-Means Clustering
+subtitle    : 
+author      : Jake Harmon
+job         : Wine Enthusiast
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+```{r cache=TRUE,echo=F}
+library(rattle)
+library(ggplot2)
+data(wine)
+```
+## K-Means Clustering as a Exploratory Data Analysis Tool
+### What is it?
+In the following slides I will show why <a href="https://jakeharmon.shinyapps.io/kmeans-app/">this shiny app</a>, created by me, might be useful to some.
+
+K-Means clustering takes predictors and tries to group them without knowing anything about them.
+
+It is a method of unsupervised machine learning.  
+
+All of the following examples use the <a href="http://www.inside-r.org/packages/cran/rattle/docs/wine">rattle.wine</a> dataset.
+
+--- .class #id 
+## K-Means Clustering ...
+### Why Does it Matter?
+In this example we will show how it can be used interactively to see how well K-Means defines clusters using pairs of predictors.
+
+By giving a data scientist tools to do exploratory data analysis, it might help them to zero in and select the most meaningful predictors.
+
+While K-Means can work in many more dimensions than 2, to idea here is to give the user a way to visualize outcomes in 2 dimensions.
+
+--- .class #id
+## K-Means Clustering ...
+### Example 1 - Alchohol and Color
+Below shows how K-Means using only Alchohol content and Color can be a fairly decent predictor of which type of grape.  The labels next to the color identify the truth for which variety, as a numerical factor.
+
+```{r echo=FALSE, fig.height=5,fig.width=5}
+
+par(mar = c(5.1, 4.1, 0, 1))
+clusters <- kmeans(wine[,c(2,11)], 3)
+wineTmp <- wine[,c(2,11,1)]
+plot(wineTmp[,c(1,2)],xlab = "Alchohol",ylab = "Color",
+         col = wineTmp[,3],
+         pch = 20, cex = 3)
+    points(clusters$centers, pch = 4, cex = 4, lwd = 4)
+     text(wineTmp[,1],wineTmp[,2],wineTmp[,3],cex=0.7,pos=4,col="black")
+
+```
+
+--- .class #id
+## Grape Variety and K-Means Clustering
+###  Example 2 - Ash and Magnesium
+But Ash and magnesium are not.
+
+```{r echo=FALSE, fig.height=5,fig.width=5}
+
+par(mar = c(5.1, 4.1, 0, 1))
+clusters <- kmeans(wine[,c(4,6)], 3)
+wineTmp <- wine[,c(4,6,1)]
+plot(wineTmp[,c(1,2)],xlab = "Ash",ylab = "Magnesium",
+         col = wineTmp[,3],
+         pch = 20, cex = 3)
+    points(clusters$centers, pch = 4, cex = 4, lwd = 4)
+     text(wineTmp[,1],wineTmp[,2],wineTmp[,3],cex=0.7,pos=4,col="black")
+
+```
+
+
+--- .class #id
+## K-Means Clustering ...
+### Conclusion
+I urge you to play with <a href="https://jakeharmon.shinyapps.io/kmeans-app/">My App</a>
+to get an idea of how K-Means clustering might help to pick out predictors in other machine learning tasks.
+
+
+
+
